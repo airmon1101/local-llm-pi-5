@@ -1,0 +1,26 @@
+[Unit]
+Description=PiLLM Next.js Frontend Service
+After=network.target pillm-backend.service
+Wants=pillm-backend.service
+
+[Service]
+Type=simple
+User=%USER%
+WorkingDirectory=%PILLM_DIR%/frontend
+Environment="NODE_ENV=production"
+Environment="PORT=3000"
+Environment="HOSTNAME=127.0.0.1"
+Environment="BACKEND_API_URL=http://127.0.0.1:8000"
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5s
+KillMode=process
+
+# MicroSD Endurance & Resource Caps
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pillm-frontend
+MemoryMax=1000M
+
+[Install]
+WantedBy=multi-user.target
